@@ -4,7 +4,7 @@
 Next.js를 기반으로 구축되었으며, 모던 웹 프레임워크를 활용한 SSR(Server Side Rendering), 동적 라우팅, 상태 관리 등 다양한 기능을 구현하여 실제 서비스에 가까운 웹 애플리케이션을 제작하는 것을 목표로 했습니다.
 
 ## 🔗 링크
-👉 [링크 추가 예정]()
+👉 [https://qorbaxk.github.io/seungyeon/](https://qorbaxk.github.io/seungyeon/)
 
 ## 📌 주요 기능
 - 다국어 지원(i18n)
