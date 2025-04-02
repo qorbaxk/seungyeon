@@ -1,15 +1,23 @@
+import Search from '@/components/Search';
+
 /**
  * 메인 페이지
- * @returns 
  */
 export default function Home() {
   return (
-    <main className="flex items-center justify-center h-screen bg-black">
-      <h1 className="sr-only">백승연 포트폴리오</h1>
-      <p className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] animate-fadeInScale flex flex-col gap-4 justify-center items-center">
-        <span>반갑습니다. </span>
-        <span>프론트엔드 개발자 백승연입니다.</span>
-      </p>
+    <main className="h-screen w-full relative">
+      {/* 음악 재생 */}
+
+      {/* 배경 비디오 */}
+      <video loop autoPlay muted className="h-screen w-full object-cover">
+        <source src="/videos/car.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2">
+        {/* h1 */}
+        <h1 className="sr-only">백승연 포트폴리오</h1>
+        {/* 검색창 */}
+        <Search placeholder="반갑습니다 :) 궁금한 점 있으시면 언제든지 말씀해주세요!" />
+      </div>
     </main>
   );
 }
