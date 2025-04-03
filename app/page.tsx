@@ -10,7 +10,14 @@ export default function Home() {
 
       {/* 배경 비디오 */}
       <video loop autoPlay muted className="h-screen w-full object-cover">
-        <source src="/videos/car.mp4" type="video/mp4" />
+        <source
+          src={
+            process.env.NODE_ENV === 'production'
+              ? '/seungyeon/videos/car.mp4'
+              : '/videos/car.mp4'
+          }
+          type="video/mp4"
+        />
       </video>
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2">
         {/* h1 */}
