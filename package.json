@@ -2,6 +2,7 @@
   "name": "seungyeon",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://qorbaxk.github.io/seungyeon",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

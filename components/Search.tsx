@@ -25,7 +25,11 @@ const Search = ({ placeholder }: ISearch) => {
       <div className="flex items-center bg-[#e1e2df]/70 rounded-md px-4 py-4 shadow-md">
         {/* 아이콘 */}
         <Image
-          src={'/icons/search.svg'}
+          src={
+            process.env.NODE_ENV === 'production'
+              ? '/seungyeon/icons/search.svg'
+              : '/icons/search.svg'
+          }
           alt="검색 아이콘"
           width={24}
           height={24}
