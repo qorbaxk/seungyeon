@@ -1,33 +1,15 @@
 'use client';
 
-import { useState, useRef, useMemo, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import usePlaylist from '@/hooks/usePlaylist';
-import { IYoutubeMusicItem } from '@/interface/music/interface';
-// import PlaybackTime from './PlaybackTime';
+import PlaybackTime from '@/components/PlaybackTime';
 
 /**
  * 뮤직 플레이어 컴포넌트
  */
 const MusicPlayer = () => {
-  const { data, isLoading } = usePlaylist();
-  /**
-   * 불러온 플레이리스트 데이터
-   */
-  const playList: IYoutubeMusicItem[] = useMemo(() => {
-    if (!isLoading && data) {
-      return data.items;
-    } else return [];
-  }, [data, isLoading]);
-
-  /**
-   * 현재 플레이 되고 있는 노래
-   */
-  const [currentTrack, setCurrentTrack] = useState<IYoutubeMusicItem>(
-    playList[0]
-  );
-
-  console.log('데이터::::', currentTrack);
+  const { currentTrack, detailData, onNextTrack, onPrevTrack } = usePlaylist();
 
   // 접근 시 자동 시작
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -65,12 +47,12 @@ const MusicPlayer = () => {
       playerRef.current = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
-        videoId: currentTrack.snippet.resourceId.videoId,
+        videoId: currentTrack?.snippet.resourceId.videoId,
         playerVars: {
           autoplay: 0,
           controls: 0,
           loop: 1,
-          playlist: currentTrack.snippet.resourceId.videoId,
+          playlist: currentTrack?.snippet.resourceId.videoId,
         },
         events: {
           onReady: (event: any) => {
@@ -97,7 +79,7 @@ const MusicPlayer = () => {
         playerRef.current.destroy();
       }
     };
-  }, [currentTrack.snippet.resourceId.videoId]);
+  }, [currentTrack?.snippet.resourceId.videoId]);
 
   return (
     <div className="fixed top-0 left-0 z-10 flex flex-col items-center justify-center pt-4 pl-4">
@@ -117,7 +99,7 @@ const MusicPlayer = () => {
           ref={overlayRef}
           className="absolute inset-0 rounded-full"
           style={{
-            backgroundImage: `url('${currentTrack.snippet.thumbnails.maxres.url}')`,
+            backgroundImage: `url('${currentTrack?.snippet.thumbnails.maxres.url}')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             opacity: 0.97,
@@ -130,16 +112,20 @@ const MusicPlayer = () => {
       </div>
       {/* 노래제목 */}
       <div className="mt-1 text-center text-white font-semibold text-lg">
-        {currentTrack.snippet.title}
+        {currentTrack?.snippet.title}
       </div>
       {/* 남은 재생 시간 */}
-      {/* <PlaybackTime /> */}
+      <PlaybackTime
+        duration={detailData?.duration || ':'}
+        isPlaying={isPlaying}
+        onEnded={onNextTrack}
+      />
       {/* 버튼 목록 */}
       <div className="mt-2 flex flex-row gap-4 items-center justify-center">
         {/* 이전 음악으로 이동 버튼 */}
         <button
           type="button"
-          // onClick={handlePrevSong}
+          onClick={onPrevTrack}
           aria-label={'이전으로 버튼'}
         >
           ⏪️
@@ -165,14 +151,14 @@ const MusicPlayer = () => {
         {/* 다음 음악으로 이동 버튼 */}
         <button
           type="button"
-          // onClick={handleNextSong}
+          onClick={onNextTrack}
           aria-label={'다음으로 버튼'}
         >
           ⏩️
         </button>
       </div>
       {/* 재생용 iframe (보이지 않게 숨김) */}
-      <div id="youtube-player" aria-hidden/>
+      <div id="youtube-player" aria-hidden />
     </div>
   );
 };
