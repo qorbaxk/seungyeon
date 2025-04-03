@@ -97,7 +97,7 @@ const MusicPlayer = () => {
         playerRef.current.destroy();
       }
     };
-  }, [currentTrack.snippet.resourceId.videoId, isPlaying]);
+  }, [currentTrack.snippet.resourceId.videoId]);
 
   return (
     <div className="fixed top-0 left-0 z-10 flex flex-col items-center justify-center pt-4 pl-4">
