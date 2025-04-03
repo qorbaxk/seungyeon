@@ -26,6 +26,10 @@ jobs:
 
       - name: Build static site
         run: npm run build
+        env:
+          NEXT_PUBLIC_YOUTUBE_API_URL: ${{ secrets.NEXT_PUBLIC_YOUTUBE_API_URL }}
+          NEXT_PUBLIC_YOUTUBE_API_KEY: ${{ secrets.NEXT_PUBLIC_YOUTUBE_API_KEY }}
+          NEXT_PUBLIC_YOUTUBE_PLAYLIST_ID: ${{ secrets.NEXT_PUBLIC_YOUTUBE_PLAYLIST_ID }}
 
       - name: Upload to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
