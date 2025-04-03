@@ -1,6 +1,12 @@
-import { useCallback } from 'react';
+"use client"
+
+import { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { IResYoutubeMusic } from '@/interface/music/interface';
+import useTrackInfo from '@/hooks/useTrackInfo';
+import {
+  IResYoutubeMusic,
+  IYoutubeMusicItem,
+} from '@/interface/music/interface';
 import { api } from '@/utils/http';
 
 export const getPlayList = async (): Promise<IResYoutubeMusic> => {
@@ -17,34 +23,42 @@ export const getPlayList = async (): Promise<IResYoutubeMusic> => {
  * 플레이 리스트 가져오는 커스텀 훅
  */
 const usePlaylist = () => {
-  // const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
 
-  const { ...rest } = useQuery({
+  const { data } = useQuery({
     queryKey: ['getPlaylist'],
     queryFn: getPlayList,
     staleTime: 1000 * 60 * 5,
   });
 
-  // const currentTrack = data[currentTrackIndex];
-  // const [currentTime, setCurrentTime] = useState(currentTrack.duration);
+  // 현재 트랙
+  const currentTrack: IYoutubeMusicItem | undefined =
+    data?.items?.[currentTrackIndex];
+
+  /**
+   * 현재 트랙의 상세 정보
+   */
+  const { data: detailData } = useTrackInfo(
+    currentTrack?.snippet.resourceId.videoId || ''
+  );
 
   // 다음 곡으로 넘기기
-  const handleNextSong = useCallback(() => {
-    // const nextIndex = (currentTrackIndex + 1) % data.length;
-    // setCurrentTrackIndex(nextIndex);
-    // setCurrentTime(data[nextIndex].duration);
-    // setIsPlaying(true);
-  }, []);
+  const onNextTrack = useCallback(() => {
+    setCurrentTrackIndex((prev) =>
+      data?.items ? (prev + 1) % data.items.length : 0
+    );
+  }, [data?.items]);
 
   // 이전 곡으로 넘기기
-  const handlePrevSong = useCallback(() => {
-    // const prevIndex = (currentTrackIndex - 1 + data.length) % data.length;
-    // setCurrentTrackIndex(prevIndex);
-    // setCurrentTime(data[prevIndex].duration);
-    // setIsPlaying(true);
-  }, []);
+  const onPrevTrack = useCallback(() => {
+    setCurrentTrackIndex((prev) =>
+      data?.items
+        ? (prev - 1 + data.items.length) % data.items.length
+        : 0
+    );
+  }, [data?.items]);
 
-  return { ...rest, handlePrevSong, handleNextSong };
+  return { currentTrack, detailData, onPrevTrack, onNextTrack };
 };
 
 export default usePlaylist;
