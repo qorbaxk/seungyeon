@@ -12,7 +12,7 @@ export default function Home() {
       <video loop autoPlay muted className="h-screen w-full object-cover">
         <source src="/videos/car.mp4" type="video/mp4" />
       </video>
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2">
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2">
         {/* h1 */}
         <h1 className="sr-only">백승연 포트폴리오</h1>
         {/* 검색창 */}
