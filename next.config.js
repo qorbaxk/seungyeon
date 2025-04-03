@@ -6,6 +6,9 @@ const nextConfig = {
     output: 'export',
     basePath: '/seungyeon',
     assetPrefix: '/seungyeon/',
+    images: {
+      unoptimized: true,
+    },
   }),
 };
 
