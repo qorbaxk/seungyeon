@@ -87,7 +87,11 @@ const MusicPlayer = () => {
       <div className="w-[150px] h-[150px] relative">
         {/* LP 배경 */}
         <Image
-          src="/images/LP.png"
+          src={
+            process.env.NODE_ENV === 'production'
+              ? '/seungyeon/images/LP.png'
+              : '/images/LP.png'
+          }
           alt="LP Background"
           fill
           priority
