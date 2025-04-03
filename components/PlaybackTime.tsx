@@ -39,13 +39,17 @@ const PlaybackTime = ({ duration, isPlaying, onEnded }: IPlaybackTime) => {
   }, [duration]);
 
   useEffect(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
 
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentTime((prev) => {
           if (prev <= 1) {
             clearInterval(intervalRef.current!);
+            intervalRef.current = null;
             onEnded();
             return 0;
           }
@@ -55,9 +59,12 @@ const PlaybackTime = ({ duration, isPlaying, onEnded }: IPlaybackTime) => {
     }
 
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     };
-  }, [isPlaying, onEnded]);
+  }, [isPlaying, duration, onEnded]);
 
   return <div className="text-white text-xs">{formatTime(currentTime)}</div>;
 };
